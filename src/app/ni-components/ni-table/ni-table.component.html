@@ -1,0 +1,30 @@
+<div>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+      <tr>
+        <th *ngFor="let h of headers">
+          <span *ngIf="!h.type">{{ h | translate }}</span>
+          <span *ngIf="h.type">{{ h.type | translate }}</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of data">
+        <td *ngFor="let s of d">
+          <span *ngIf="s && !s.type">{{ s }}</span>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[0] === 'details'" (click)="changePage(s.id)">Details</button>
+          <button md-raised-button color="warning" *ngIf="s && s.type && (s.type)[0] === 'remove'" (click)="removeUser(s.id)">Remove</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[0] === 'paynow'" (click)="showPayDialog(s)">Pay now</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[0] === 'Open'" (click)="showDialog(s.id)">{{'Open' | translate}}</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[0] === 'Cancel'" (click)="showDialog(s.id)">{{'Cancel' | translate}}</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[0] === 'Update permission'" (click)="updatePermission(s.id)">Update permission</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[1] === 'Remove payment mean'" (click)="removePermission(s.id)">Remove payment mean</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[1] === 'Update Address'" (click)="updateAddress(s)">Update Address</button>
+          <button md-raised-button color="primary" *ngIf="s && s.type && (s.type)[0] === 'Remove Address'" (click)="removeAddress(s)">Remove Address</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

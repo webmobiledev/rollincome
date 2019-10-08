@@ -1,0 +1,86 @@
+
+<ni-breadcrumb [menu]="breadcrumb" [style]="'custom2'" class="mb-4"></ni-breadcrumb>
+<md-tab-group>
+  <md-tab>
+    <ng-template md-tab-label>
+      {{'Identification' | translate}}
+    </ng-template>
+    <div class="row p-2 mt-3 text-center">
+      <div class="col-md-3 mb-3">
+        <ni-card [title]="'General' | translate" *ngIf="userInfo.user_full_name">
+          <p>{{'First Name' | translate}}: {{userInfo.user_full_name.first_name}}</p>
+          <p>{{'Middle Name' | translate}}: {{userInfo.user_full_name.middle_name}}</p>
+          <p>{{'Surname' | translate}}: {{userInfo.user_full_name.sur_name}}</p>
+          <p>{{'Gender' | translate}}: {{userInfo.user_full_name.gender}}</p>
+          <img src="{{userInfo.user_full_name.photo_path}}" class="avatar"><br/>
+          <button md-raised-button color="accent" (click)="update('general')" class="mt-3">{{'Update' | translate}}</button>
+        </ni-card>
+      </div>
+      <div class="col-md-3 mb-3">
+        <ni-card [title]="'Contact' | translate" *ngIf="userInfo.user_phones">
+          <p>{{'Home Phone' | translate}}: {{userInfo.user_phones.contact_home_phone}}</p>
+          <p>{{'Mobile Phone' | translate}}: {{userInfo.user_phones.contact_mobile_phone}}</p>
+          <p>{{'Office Phone' | translate}}: {{userInfo.user_phones.contact_office_phone}}</p>
+          <button md-raised-button color="accent" (click)="update('contact')" class="mt-3">{{'Update' | translate}}</button>
+        </ni-card>
+      </div>
+      <div class="col-md-3 mb-3">
+        <ni-card [title]="'Email' | translate" *ngIf="userInfo.user_email">
+          <p>{{'Email' | translate}}: {{userInfo.user_email.email}}</p>
+          <p>{{'Validation Status' | translate}}: {{userInfo.user_email.email_validation_status}}</p>
+          <button md-raised-button color="accent" (click)="update('email')" class="mt-3">{{'Update' | translate}}</button>
+        </ni-card>
+      </div>
+      <div class="col-md-3 mb-3">
+        <ni-card [title]="'Occupation' | translate" *ngIf="userInfo.user_work_info">
+          <p>{{'Occupation' | translate}}: {{userInfo.user_work_info.occupation}}</p>
+          <p>{{'Occupation Sector' | translate}}: {{userInfo.user_work_info.occupation_sector}}</p>
+          <p>{{'Yearly Income' | translate}}: {{userInfo.user_work_info.yearly_income}}</p>
+          <button md-raised-button color="accent" (click)="update('occupation')" class="mt-3">{{'Update' | translate}}</button>
+        </ni-card>
+      </div>
+    </div>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      {{'Address and occupation' | translate}}
+    </ng-template>
+    <div class="row p-2">
+      <div class="col-md-12 mb-3">
+        <button md-raised-button color="primary" class="mb-3" (click)="addAddress()">Add address</button>
+        <ni-card [title]="'Addresses' | translate" (refresh)="doRefreshAddress($event)" [showRefresh]="true">
+          <ni-table [headers]="addressHeaders" [data]="addresses"></ni-table>
+          <ni-table-loading *ngIf="loadingAddress"></ni-table-loading>
+          <ni-alert *ngIf="addresses.length === 0 && !loadingAddress" [color]="'warning'" [outline]="true"><strong>{{'No address' | translate}}</strong></ni-alert>
+          <ni-pagination [totalItems]="addressTotal" [itemPerPage]="addressMax" [currentPage]="addressPage" *ngIf="addresses.length > 0" (changePage)="changeAddressPage($event)"></ni-pagination>
+        </ni-card>
+      </div>
+    </div>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      {{'Payment means' | translate}}
+    </ng-template>
+    <div class="row p-2">
+      <div class="col-md-12 mb-3">
+        <button md-raised-button color="accent" (click)="addIBAN()">{{'Add a new IBAN' | translate}}</button>
+      </div>
+      <div class="col-md-6">
+        <ni-card [title]="'Kori address' | translate" (refresh)="doRefreshKori($event)" [showRefresh]="true">
+          <ni-table [headers]="koriHeaders" [data]="koriData"></ni-table>
+          <ni-table-loading *ngIf="loadingKori"></ni-table-loading>
+          <ni-alert *ngIf="koriData.length === 0 && !loadingKori" [color]="'warning'" [outline]="true"><strong>{{'No Kori address' | translate}}</strong></ni-alert>
+          <ni-pagination [totalItems]="koriTotal" [itemPerPage]="koriMax" [currentPage]="koriPage" *ngIf="koriData.length > 0" (changePage)="changeKoriPage($event)"></ni-pagination>
+        </ni-card>
+      </div>
+      <div class="col-md-6">
+        <ni-card [title]="'Bank address' | translate" (refresh)="doRefreshBank($event)" [showRefresh]="true">
+          <ni-table [headers]="bankHeaders" [data]="bankData"></ni-table>
+          <ni-table-loading *ngIf="loadingBank"></ni-table-loading>
+          <ni-alert *ngIf="bankData.length === 0 && !loadingBank" [color]="'warning'" [outline]="true"><strong>{{'No Bank address' | translate}}</strong></ni-alert>
+          <ni-pagination [totalItems]="bankTotal" [itemPerPage]="bankMax" [currentPage]="bankPage" *ngIf="bankData.length > 0" (changePage)="changeBankPage($event)"></ni-pagination>
+        </ni-card>
+      </div>
+    </div>
+  </md-tab>
+</md-tab-group>
